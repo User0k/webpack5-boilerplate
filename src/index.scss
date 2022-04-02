@@ -1,4 +1,7 @@
 @import './styles/vars.scss';
+@import './components/Header/index.scss';
+@import './components/Section1/index.scss';
+@import './components/Footer/index.scss';
 
 body {
   color: $primary-color;

@@ -4,6 +4,4 @@ import Main from './components/Main';
 import Footer from './components/Footer';
 
 const body = document.body;
-body.append(Header);
-body.append(Main);
-body.append(Footer);
+body.append(Header, Main, Footer);

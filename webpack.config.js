@@ -42,13 +42,12 @@ module.exports = {
               },
             },
           },
-          'sass-loader',
           {
-            loader: 'sass-resources-loader',
+            loader: 'sass-loader',
             options: {
-              resources: 'src/index.scss'
-            }
-          }
+              sourceMap: true,
+            },
+          },
         ],
       },
       {
