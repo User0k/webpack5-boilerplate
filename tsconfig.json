@@ -4,9 +4,12 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "noImplicitAny": true,
-    "module": "es6",
-    "target": "es5",
+    "module": "es2020",
+    "moduleResolution": "node",
+    "target": "es2020",
     "allowJs": true,
-    "sourceMap": true,
+    "sourceMap": true
   },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"],
 }

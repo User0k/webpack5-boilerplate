@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 let mode = 'development';
 if (process.env.NODE_ENV === 'production') {
@@ -13,8 +13,14 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
-    assetModuleFilename: "assets/[name].[hash][ext]",
+    assetModuleFilename: (pathData) => {
+      const filepath = path.dirname(pathData.filename).split('/').slice(1).join('/');
+      return `${filepath}/[name][ext]`;
+    },
     clean: true,
+  },
+  resolve: {
+    extensions: ['.js', '.ts'],
   },
   module: {
     rules: [
@@ -30,10 +36,8 @@ module.exports = {
       {
         test: /\.s[ac]ss$/i,
         use: [
-          (mode === 'development') ? 'style-loader' : MiniCssExtractPlugin.loader,
-          //tranlsate css into CommonJS
+          mode === 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,
           'css-loader',
-          //add autoprfixer
           {
             loader: 'postcss-loader',
             options: {
@@ -60,36 +64,34 @@ module.exports = {
               presets: ['@babel/preset-env'],
             },
           },
-          'ts-loader'
+          'ts-loader',
         ],
       },
-      //support images
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
       },
-      //support fonts
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
       },
-    ]
+    ],
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].[contenthash].css'
+      filename: '[name].[contenthash].css',
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './src/index.html'),
-      filename: './index.html'
+      filename: './index.html',
     }),
   ],
   devtool: 'inline-source-map',
   optimization: {
-    minimize: true
+    minimize: true,
   },
   devServer: {
     compress: true,
     port: 3000,
   },
-}
+};
