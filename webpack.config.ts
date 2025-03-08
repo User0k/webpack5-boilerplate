@@ -5,7 +5,7 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { rulesBuilder } from "./webpackConfig/rulesBuilder";
 import { WebpackConfig } from "./webpackConfig/interfaces";
 
-const isProduction = process.env.NODE_ENV === "production";
+const isDevMode = process.env.NODE_ENV === "development";
 
 const config: WebpackConfig = {
   entry: "./src/index.tsx",
@@ -14,35 +14,35 @@ const config: WebpackConfig = {
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },
-  devtool: !isProduction && "inline-source-map",
+  devtool: isDevMode ? "inline-source-map" : undefined,
   //devServer runs only in dev mode and on 3000 port by default
-  devServer: !isProduction && {
-    open: true,
-    port: +process.env.PORT || 3000,
-  },
+  devServer: isDevMode
+    ? {
+        open: true,
+        port: +process.env.PORT || 3000,
+      }
+    : undefined,
   plugins: [
     new HtmlWebpackPlugin({
       template: "index.html",
     }),
     new MiniCssExtractPlugin({
-      filename: isProduction
-        ? "css/[name]-[contenthash].css"
-        : "css/[name].css",
+      filename: isDevMode ? "css/[name].css" : "css/[name]-[contenthash].css",
     }),
     new webpack.ProgressPlugin(),
   ],
   module: {
-    rules: rulesBuilder(),
+    rules: rulesBuilder(isDevMode ? "development" : "production"),
   },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src/"),
     },
-    extensions: [".tsx", ".ts", ".jsx", ".js"],
+    extensions: [".tsx", ".ts", ".js"],
   },
 };
 
 export default () => {
-  isProduction ? (config.mode = "production") : (config.mode = "development");
+  isDevMode ? (config.mode = "development") : (config.mode = "production");
   return config;
 };

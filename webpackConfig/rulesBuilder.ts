@@ -1,27 +1,21 @@
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { RuleSetRule } from "webpack";
 
-export const rulesBuilder = (): RuleSetRule[] => {
+export const rulesBuilder = (
+  mode: "development" | "production"
+): RuleSetRule[] => {
   const tsLoader = {
     test: /\.tsx?$/,
     use: "ts-loader",
     exclude: /node_modules/,
   };
 
-  const babelLoader = {
-    test: /\.(js|jsx)$/,
-    exclude: /node_modules/,
-    use: {
-      loader: "babel-loader",
-      options: {
-        presets: ["@babel/preset-env", "@babel/preset-react"],
-      },
-    },
-  };
-
   const styleLoader = {
     test: /\.css$/i,
-    use: [MiniCssExtractPlugin.loader, "css-loader"],
+    use: [
+      mode === "development" ? "style-loader" : MiniCssExtractPlugin.loader,
+      "css-loader",
+    ],
   };
 
   const assetLoader = {
@@ -29,5 +23,5 @@ export const rulesBuilder = (): RuleSetRule[] => {
     type: "asset",
   };
 
-  return [tsLoader, babelLoader, styleLoader, assetLoader];
+  return [tsLoader, styleLoader, assetLoader];
 };
