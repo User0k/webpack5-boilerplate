@@ -14,7 +14,21 @@ export const rulesBuilder = (
     test: /\.css$/i,
     use: [
       mode === "development" ? "style-loader" : MiniCssExtractPlugin.loader,
-      "css-loader",
+      {
+        loader: "css-loader",
+        //the options below are set for css-modules only
+        options: {
+          modules: {
+            namedExport: false,
+            auto: (resourcePath: string) =>
+              resourcePath.endsWith(".module.css"),
+            localIdentName:
+              mode === "development"
+                ? "[path][name]__[local]-[hash:base64:5]"
+                : "[hash:base64:8]",
+          },
+        },
+      },
     ],
   };
 
