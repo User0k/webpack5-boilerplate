@@ -1,8 +1,6 @@
 import path from "path";
-import webpack from "webpack";
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { rulesBuilder } from "./webpackConfig/rulesBuilder";
+import { pluginsBuilder } from "./webpackConfig/pluginsBuilder";
 import { WebpackConfig } from "./webpackConfig/interfaces";
 
 const isDevMode = process.env.NODE_ENV === "development";
@@ -22,17 +20,9 @@ const config: WebpackConfig = {
         port: +process.env.PORT || 3000,
       }
     : undefined,
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "index.html",
-    }),
-    new MiniCssExtractPlugin({
-      filename: isDevMode ? "css/[name].css" : "css/[name]-[contenthash].css",
-    }),
-    new webpack.ProgressPlugin(),
-  ],
+  plugins: pluginsBuilder(isDevMode),
   module: {
-    rules: rulesBuilder(isDevMode ? "development" : "production"),
+    rules: rulesBuilder(isDevMode),
   },
   resolve: {
     alias: {
