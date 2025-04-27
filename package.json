@@ -8,6 +8,7 @@
     "dev": "webpack serve --node-env=development --port=3000"
   },
   "devDependencies": {
+    "@svgr/webpack": "^8.1.0",
     "@types/node": "^22.13.9",
     "@types/react-dom": "^19.0.4",
     "@types/webpack": "^5.28.5",

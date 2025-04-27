@@ -29,10 +29,29 @@ export const rulesBuilder = (isDev: boolean): RuleSetRule[] => {
     ],
   };
 
-  const assetLoader = {
-    test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-    type: "asset",
+  const fontLoader = {
+    test: /\.(eot|svg|ttf|woff|woff2)$/i,
+    type: "asset/resource",
   };
 
-  return [tsLoader, styleLoader, assetLoader];
+  const imageLoader = {
+    test: /\.(png|jpg|gif|svg)$/i,
+    type: "asset/resource",
+  };
+
+  const svgLoader = {
+    test: /\.svg$/i,
+    issuer: /\.(js|jsx|ts|tsx)$/,
+    type: "javascript/auto", // Disable webpack's default handling
+    use: [
+      {
+        loader: "@svgr/webpack",
+        options: {
+          icon: true,
+        },
+      },
+    ],
+  };
+
+  return [tsLoader, styleLoader, fontLoader, imageLoader, svgLoader];
 };
