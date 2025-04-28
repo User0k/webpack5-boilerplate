@@ -1,0 +1,39 @@
+:root {
+  --color-primary: #1cc037;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#app {
+  font-family: Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+
+span {
+  color: var(--color-primary);
+}
+
+button {
+  border: none;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+  margin: 0 1rem;
+  background-color: var(--color-primary);
+}
+
+a {
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  font-weight: bold;
+}
